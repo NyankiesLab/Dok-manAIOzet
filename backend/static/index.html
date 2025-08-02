@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doküman Forum - AI Destekli Doküman Yönetimi</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Axios CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+    
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .loading {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-xl font-bold text-gray-800">📄 Doküman Forum</h1>
+                </div>
+                <div class="flex items-center space-x-4" id="nav-buttons">
+                    <button onclick="showPage('home')" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Ana Sayfa</button>
+                    <button onclick="showPage('login')" id="login-btn" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Giriş</button>
+                    <button onclick="showPage('register')" id="register-btn" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Kayıt Ol</button>
+                    <button onclick="showPage('upload')" id="upload-btn" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium hidden">Yükle</button>
+                    <button onclick="showPage('search')" id="search-btn" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium hidden">🔍 Ara & Özet</button>
+                    <button onclick="logout()" id="logout-btn" class="text-red-600 hover:text-red-900 px-3 py-2 rounded-md text-sm font-medium hidden">Çıkış</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Home Page -->
+        <div id="home-page" class="page-content">
+            <div class="hero-gradient text-white rounded-lg p-8 mb-8">
+                <h1 class="text-4xl font-bold mb-4">AI Destekli Doküman Yönetim Sistemi</h1>
+                <p class="text-xl mb-6">Dokümanlarınızı yükleyin, arayın ve AI ile özetleyin</p>
+                <div class="flex space-x-4">
+                    <a href="/static/docs/user-admin-guide.html" target="_blank" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100">
+                        📖 Kullanıcı Kılavuzu
+                    </a>
+                    <button onclick="showPage('login')" class="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700">
+                        Başla
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+                    <h3 class="text-xl font-semibold mb-3">📤 Kolay Yükleme</h3>
+                    <p>Dokümanlarınızı sürükle-bırak ile kolayca yükleyin</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+                    <h3 class="text-xl font-semibold mb-3">🔍 Akıllı Arama</h3>
+                    <p>Doğal dil ile dokümanlarınızda arama yapın</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+                    <h3 class="text-xl font-semibold mb-3">🤖 AI Özetleme</h3>
+                    <p>Google Gemini ile otomatik özet ve anahtar kelime çıkarımı</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login-page" class="page-content hidden">
+            <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
+                <h2 class="text-2xl font-bold mb-6 text-center">Giriş Yap</h2>
+                <form id="login-form">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">E-posta</label>
+                        <input type="email" id="login-email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Şifre</label>
+                        <input type="password" id="login-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
+                        Giriş Yap
+                    </button>
+                </form>
+                <div id="login-message" class="mt-4 text-center"></div>
+            </div>
+        </div>
+
+        <!-- Register Page -->
+        <div id="register-page" class="page-content hidden">
+            <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
+                <h2 class="text-2xl font-bold mb-6 text-center">Kayıt Ol</h2>
+                <form id="register-form">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">E-posta</label>
+                        <input type="email" id="register-email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Kullanıcı Adı</label>
+                        <input type="text" id="register-username" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Ad Soyad</label>
+                        <input type="text" id="register-fullname" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Şifre</label>
+                        <input type="password" id="register-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+                    <button type="submit" class="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700">
+                        Kayıt Ol
+                    </button>
+                </form>
+                <div id="register-message" class="mt-4 text-center"></div>
+            </div>
+        </div>
+
+        <!-- Upload Page -->
+        <div id="upload-page" class="page-content hidden">
+            <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md">
+                <h2 class="text-2xl font-bold mb-6 text-center">Doküman Yükle</h2>
+                <form id="upload-form">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Doküman Başlığı</label>
+                        <input type="text" id="document-title" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Dosya Seçin</label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center" id="file-drop-zone">
+                            <input type="file" id="document-file" class="hidden" accept=".pdf,.doc,.docx,.txt" required>
+                            <label for="document-file" class="cursor-pointer">
+                                <div class="text-gray-500" id="file-upload-text">
+                                    <p class="text-lg">📁 Dosya seçmek için tıklayın</p>
+                                    <p class="text-sm">PDF, DOC, DOCX, TXT dosyaları desteklenir</p>
+                                </div>
+                                <div class="hidden" id="file-selected-info">
+                                    <p class="text-lg text-green-600">✅ Dosya Seçildi</p>
+                                    <p class="text-sm text-gray-600" id="selected-file-name"></p>
+                                    <p class="text-xs text-gray-500" id="selected-file-size"></p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
+                        Yükle
+                    </button>
+                </form>
+                <div id="upload-message" class="mt-4 text-center"></div>
+            </div>
+        </div>
+
+                 <!-- Search & Summary Page -->
+         <div id="search-page" class="page-content hidden">
+             <div class="max-w-7xl mx-auto">
+                 <h2 class="text-2xl font-bold mb-6 text-center">🔍 Arama & 🤖 AI Özetleme</h2>
+                 
+                 <div class="grid md:grid-cols-3 gap-6">
+                     <!-- Sol Taraf - Arama ve AI Özetleme -->
+                     <div class="md:col-span-2">
+                         <!-- Doğal Dil Arama -->
+                         <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                             <h3 class="text-lg font-semibold mb-4">🔍 Doküman Arama</h3>
+                             <div class="mb-4">
+                                 <input type="text" id="natural-search-query" placeholder="Aranacak kelime veya cümleyi girin..." class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                             </div>
+                             <button onclick="naturalLanguageSearch()" class="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700">
+                                 🔍 Ara
+                             </button>
+                         </div>
+
+                         <!-- AI Özetleme -->
+                         <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                             <h3 class="text-lg font-semibold mb-4">📄 AI Özetleme</h3>
+                             <div class="grid md:grid-cols-2 gap-4">
+                                 <div>
+                                     <label class="block text-gray-700 text-sm font-bold mb-2">Doküman Seçin</label>
+                                     <select id="document-select" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                         <option value="">Doküman seçin...</option>
+                                     </select>
+                                 </div>
+                                 <div>
+                                     <label class="block text-gray-700 text-sm font-bold mb-2">Doküman ID</label>
+                                     <input type="number" id="document-id-search" placeholder="Doküman ID girin..." class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                 </div>
+                             </div>
+                             <div class="flex gap-4 mt-4">
+                                 <button onclick="generateSummary()" class="flex-1 bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700">
+                                     🤖 AI Özet Oluştur
+                                 </button>
+                                 <button onclick="searchByDocumentId()" class="flex-1 bg-orange-600 text-white py-2 px-4 rounded-md hover:bg-orange-700">
+                                     🔍 ID ile Ara
+                                 </button>
+                             </div>
+                         </div>
+
+                         <div id="search-results" class="space-y-4"></div>
+                     </div>
+
+                     <!-- Sağ Taraf - Hakkında Bölümü -->
+                     <div class="md:col-span-1">
+                         <div class="bg-white p-6 rounded-lg shadow-md sticky top-4">
+                             <h3 class="text-lg font-semibold mb-4">📚 Hakkında</h3>
+                             <div class="space-y-4">
+                                 <div class="bg-blue-50 p-4 rounded-lg">
+                                     <h4 class="font-semibold text-blue-800 mb-2">📖 Modül Dokümanları</h4>
+                                     <p class="text-sm text-blue-700 mb-3">Sistemin tüm modüllerinin detaylı açıklaması ve API dokümantasyonu</p>
+                                     <a href="/static/docs/module-documentation.html" target="_blank" class="inline-block bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700">
+                                         Görüntüle
+                                     </a>
+                                 </div>
+                                 <div class="bg-green-50 p-4 rounded-lg">
+                                     <h4 class="font-semibold text-green-800 mb-2">🧪 Unit Test Raporu</h4>
+                                     <p class="text-sm text-green-700 mb-3">Test sonuçları, kod kapsamı ve kalite güvencesi raporu</p>
+                                     <a href="/static/docs/unit-test-report.html" target="_blank" class="inline-block bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700">
+                                         Görüntüle
+                                     </a>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+    </main>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        let currentToken = localStorage.getItem('token');
+        let currentUser = null;
+
+        // Page navigation
+        function showPage(pageName) {
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.add('hidden');
+            });
+            document.getElementById(pageName + '-page').classList.remove('hidden');
+        }
+
+        // Login functionality
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const messageDiv = document.getElementById('login-message');
+
+            try {
+                const response = await axios.post(`${API_BASE}/auth/login`, {
+                    email: email,
+                    password: password
+                });
+
+                if (response.data.access_token) {
+                    currentToken = response.data.access_token;
+                    currentUser = response.data.user;
+                    localStorage.setItem('token', currentToken);
+                    messageDiv.innerHTML = '<p class="text-green-600">✅ Giriş başarılı!</p>';
+                    updateNavigation();
+                    setTimeout(() => showPage('home'), 1000);
+                }
+            } catch (error) {
+                messageDiv.innerHTML = '<p class="text-red-600">❌ Giriş başarısız: ' + (error.response?.data?.detail || error.message) + '</p>';
+            }
+        });
+
+        // Register functionality
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('register-email').value;
+            const username = document.getElementById('register-username').value;
+            const full_name = document.getElementById('register-fullname').value;
+            const password = document.getElementById('register-password').value;
+            const messageDiv = document.getElementById('register-message');
+
+            try {
+                const response = await axios.post(`${API_BASE}/auth/register`, {
+                    email: email,
+                    username: username,
+                    full_name: full_name,
+                    password: password
+                });
+
+                messageDiv.innerHTML = '<p class="text-green-600">✅ Kayıt başarılı! Giriş yapabilirsiniz.</p>';
+                setTimeout(() => showPage('login'), 2000);
+            } catch (error) {
+                messageDiv.innerHTML = '<p class="text-red-600">❌ Kayıt başarısız: ' + (error.response?.data?.detail || error.message) + '</p>';
+            }
+        });
+
+        // File selection functionality
+        document.getElementById('document-file').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            updateFileSelection(file);
+        });
+
+        // Drag and drop functionality
+        const dropZone = document.getElementById('file-drop-zone');
+        const fileInput = document.getElementById('document-file');
+
+        dropZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            dropZone.classList.add('border-blue-500', 'bg-blue-50');
+        });
+
+        dropZone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            dropZone.classList.remove('border-blue-500', 'bg-blue-50');
+        });
+
+        dropZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            dropZone.classList.remove('border-blue-500', 'bg-blue-50');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                updateFileSelection(files[0]);
+            }
+        });
+
+        function updateFileSelection(file) {
+            const fileUploadText = document.getElementById('file-upload-text');
+            const fileSelectedInfo = document.getElementById('file-selected-info');
+            const selectedFileName = document.getElementById('selected-file-name');
+            const selectedFileSize = document.getElementById('selected-file-size');
+
+            if (file) {
+                // Dosya seçildiğinde görsel geri bildirim
+                fileUploadText.classList.add('hidden');
+                fileSelectedInfo.classList.remove('hidden');
+                selectedFileName.textContent = file.name;
+                selectedFileSize.textContent = `Boyut: ${(file.size / 1024).toFixed(2)} KB`;
+                dropZone.classList.add('border-green-500', 'bg-green-50');
+            } else {
+                // Dosya seçimi iptal edildiğinde
+                fileUploadText.classList.remove('hidden');
+                fileSelectedInfo.classList.add('hidden');
+                dropZone.classList.remove('border-green-500', 'bg-green-50');
+            }
+        }
+
+        // Upload functionality
+        document.getElementById('upload-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('document-title').value;
+            const file = document.getElementById('document-file').files[0];
+            const messageDiv = document.getElementById('upload-message');
+
+            if (!file) {
+                messageDiv.innerHTML = '<p class="text-red-600">❌ Lütfen bir dosya seçin</p>';
+                return;
+            }
+
+            if (!title.trim()) {
+                messageDiv.innerHTML = '<p class="text-red-600">❌ Lütfen doküman başlığı girin</p>';
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('file', file);
+
+            try {
+                const response = await axios.post(`${API_BASE}/documents/`, formData, {
+                    headers: {
+                        'Authorization': `Bearer ${currentToken}`
+                    }
+                });
+
+                messageDiv.innerHTML = '<p class="text-green-600">✅ Doküman başarıyla yüklendi!</p>';
+                document.getElementById('upload-form').reset();
+                
+                // Dosya seçimi görsel geri bildirimini sıfırla
+                updateFileSelection(null);
+                
+                loadUserDocuments(); // Doküman listesini yenile
+            } catch (error) {
+                console.error('Upload error:', error);
+                messageDiv.innerHTML = '<p class="text-red-600">❌ Yükleme başarısız: ' + (error.response?.data?.detail || error.message) + '</p>';
+            }
+        });
+
+
+
+        // Summary functionality
+        async function generateSummary() {
+            const documentId = document.getElementById('document-select').value;
+            const resultsDiv = document.getElementById('search-results');
+
+            if (!documentId) {
+                resultsDiv.innerHTML = '<p class="text-red-600">❌ Lütfen bir doküman seçin</p>';
+                return;
+            }
+
+            try {
+                const response = await axios.post(`${API_BASE}/summary/${documentId}/generate`, {}, {
+                    headers: { 'Authorization': `Bearer ${currentToken}` }
+                });
+
+                resultsDiv.innerHTML = `
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold mb-4">🤖 AI Özeti</h3>
+                        <div class="mb-4">
+                            <h4 class="font-semibold">📝 Detaylı Özet:</h4>
+                            <p class="text-gray-700 leading-relaxed">${response.data.summary}</p>
+                        </div>
+                        <div class="mb-4">
+                            <h4 class="font-semibold">🔑 Anahtar Kelimeler:</h4>
+                            <p class="text-gray-700">${response.data.keywords}</p>
+                        </div>
+                        <div class="mt-4 p-3 bg-blue-50 rounded-lg">
+                            <h4 class="font-semibold text-blue-800">📚 Kaynakça Bilgisi:</h4>
+                            <p class="text-blue-700 text-sm">Bu özet, dokümanın içeriğinden AI tarafından otomatik olarak oluşturulmuştur. Kaynak: ${response.data.document?.title || 'Bilinmeyen Doküman'}</p>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Summary error:', error);
+                resultsDiv.innerHTML = '<p class="text-red-600">❌ Özet oluşturma hatası: ' + (error.response?.data?.detail || error.message) + '</p>';
+            }
+        }
+
+        // Natural language search
+        async function naturalLanguageSearch() {
+            const query = document.getElementById('natural-search-query').value;
+            const resultsDiv = document.getElementById('search-results');
+
+            if (!query.trim()) {
+                resultsDiv.innerHTML = '<p class="text-red-600">❌ Lütfen arama sorgusu girin</p>';
+                return;
+            }
+
+            try {
+                // Basit metin arama kullan - kelime eşleşmesi
+                const response = await axios.get(`${API_BASE}/search/`, {
+                    params: { query: query, file_type: 'all' },
+                    headers: { 'Authorization': `Bearer ${currentToken}` }
+                });
+
+                if (response.data.length === 0) {
+                    resultsDiv.innerHTML = '<p class="text-gray-500 text-center">Sonuç bulunamadı</p>';
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-lg font-semibold mb-4">🔍 Arama Sonuçları</h3>
+                            ${response.data.map(doc => `
+                                <div class="border-b border-gray-200 pb-4 mb-4 last:border-b-0">
+                                    <h4 class="font-semibold text-blue-600">${doc.title}</h4>
+                                    <p class="text-sm text-gray-600 mb-2">Dosya: ${doc.filename}</p>
+                                    <p class="text-sm text-gray-600 mb-2">Tür: ${doc.file_type}</p>
+                                    <p class="text-sm text-gray-600 mb-2">Tarih: ${new Date(doc.created_at).toLocaleDateString('tr-TR')}</p>
+                                    ${doc.summary ? `<p class="text-sm text-gray-600 mb-2"><strong>Özet:</strong> ${doc.summary}</p>` : ''}
+                                    ${doc.keywords ? `<p class="text-sm text-gray-600"><strong>Anahtar Kelimeler:</strong> ${doc.keywords}</p>` : ''}
+                                    <p class="text-xs text-green-600 mt-2">✅ Kelime eşleşmesi bulundu</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Search error:', error);
+                resultsDiv.innerHTML = '<p class="text-red-600">❌ Arama hatası: ' + (error.response?.data?.detail || error.message) + '</p>';
+            }
+        }
+
+        // Search by document ID
+        async function searchByDocumentId() {
+            const documentId = document.getElementById('document-id-search').value;
+            const resultsDiv = document.getElementById('search-results');
+
+            if (!documentId) {
+                resultsDiv.innerHTML = '<p class="text-red-600">❌ Lütfen doküman ID girin</p>';
+                return;
+            }
+
+            try {
+                const response = await axios.get(`${API_BASE}/documents/${documentId}`, {
+                    headers: { 'Authorization': `Bearer ${currentToken}` }
+                });
+
+                const doc = response.data;
+                resultsDiv.innerHTML = `
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold mb-4">🆔 Doküman Detayları (ID: ${documentId})</h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="font-semibold">📄 Temel Bilgiler:</h4>
+                                <p><strong>Başlık:</strong> ${doc.title}</p>
+                                <p><strong>Dosya:</strong> ${doc.filename}</p>
+                                <p><strong>Tür:</strong> ${doc.file_type}</p>
+                                <p><strong>Boyut:</strong> ${doc.file_size} bytes</p>
+                                <p><strong>Tarih:</strong> ${new Date(doc.created_at).toLocaleDateString('tr-TR')}</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">🔑 Anahtar Kelimeler:</h4>
+                                <p class="text-gray-700">${doc.keywords || 'Henüz çıkarılmamış'}</p>
+                            </div>
+                        </div>
+                        ${doc.summary ? `
+                            <div class="mt-4">
+                                <h4 class="font-semibold">📝 Özet:</h4>
+                                <p class="text-gray-700 leading-relaxed">${doc.summary}</p>
+                            </div>
+                        ` : '<p class="text-gray-500 mt-4">Bu doküman için henüz özet oluşturulmamış.</p>'}
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Document ID search error:', error);
+                resultsDiv.innerHTML = '<p class="text-red-600">❌ Doküman bulunamadı: ' + (error.response?.data?.detail || error.message) + '</p>';
+            }
+        }
+
+        // Load user documents for summary page
+        async function loadUserDocuments() {
+            try {
+                const response = await axios.get(`${API_BASE}/documents/`, {
+                    headers: { 'Authorization': `Bearer ${currentToken}` }
+                });
+
+                const select = document.getElementById('document-select');
+                select.innerHTML = '<option value="">Doküman seçin...</option>';
+                
+                response.data.forEach(doc => {
+                    const option = document.createElement('option');
+                    option.value = doc.id;
+                    option.textContent = doc.title;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Dokümanlar yüklenemedi:', error);
+            }
+        }
+
+        // Logout functionality
+        function logout() {
+            currentToken = null;
+            currentUser = null;
+            localStorage.removeItem('token');
+            updateNavigation();
+            showPage('home');
+        }
+
+        // Update navigation based on authentication
+        function updateNavigation() {
+            const isLoggedIn = !!currentToken;
+            
+            document.getElementById('login-btn').classList.toggle('hidden', isLoggedIn);
+            document.getElementById('register-btn').classList.toggle('hidden', isLoggedIn);
+            document.getElementById('upload-btn').classList.toggle('hidden', !isLoggedIn);
+            document.getElementById('search-btn').classList.toggle('hidden', !isLoggedIn);
+            document.getElementById('logout-btn').classList.toggle('hidden', !isLoggedIn);
+            
+            // Eğer giriş yapılmamışsa ve yükleme veya arama sayfasındaysa ana sayfaya yönlendir
+            if (!isLoggedIn) {
+                const currentPage = document.querySelector('.page-content:not(.hidden)');
+                if (currentPage && (currentPage.id === 'upload-page' || currentPage.id === 'search-page')) {
+                    showPage('home');
+                }
+            }
+        }
+
+        // Check authentication on page load
+        async function checkAuth() {
+            if (currentToken) {
+                try {
+                    const response = await axios.get(`${API_BASE}/auth/me`, {
+                        headers: { 'Authorization': `Bearer ${currentToken}` }
+                    });
+                    currentUser = response.data;
+                    updateNavigation();
+                    loadUserDocuments();
+                } catch (error) {
+                    // Token geçersiz, logout yap
+                    logout();
+                }
+            } else {
+                updateNavigation();
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('home');
+            checkAuth();
+            
+            // URL'den sayfa kontrolü
+            const urlParams = new URLSearchParams(window.location.search);
+            const page = urlParams.get('page');
+            if (page && currentToken) {
+                showPage(page);
+            }
+        });
+    </script>
+</body>
+</html> 

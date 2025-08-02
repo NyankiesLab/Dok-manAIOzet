@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proje Mimarisi ve API - Doküman Forum</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #64748b;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+        }
+        
+        .nav-links a:hover {
+            color: #3b82f6;
+            background: #f1f5f9;
+        }
+        
+        .nav-links a.active {
+            color: #3b82f6;
+            background: #eff6ff;
+        }
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+        }
+        
+        .content-area {
+            background: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .sidebar {
+            background: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            height: fit-content;
+        }
+        
+        .content {
+            padding: 2rem;
+        }
+        
+        .section {
+            margin-bottom: 2rem;
+        }
+        
+        .section h2 {
+            color: #1e293b;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .section h3 {
+            color: #374151;
+            font-size: 1.25rem;
+            margin: 1.5rem 0 1rem 0;
+            font-weight: 600;
+        }
+        
+        .section h4 {
+            color: #4b5563;
+            font-size: 1.1rem;
+            margin: 1rem 0 0.5rem 0;
+            font-weight: 600;
+        }
+        
+        .code-block {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            font-size: 0.875rem;
+        }
+        
+        .endpoint {
+            background: #f0fdf4;
+            border: 1px solid #22c55e;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .endpoint h4 {
+            color: #166534;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .method {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        
+        .method.get { background: #22c55e; }
+        .method.post { background: #3b82f6; }
+        .method.put { background: #f59e0b; }
+        .method.delete { background: #ef4444; }
+        
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .tech-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .tech-card h4 {
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .tech-card p {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: #ffffff;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .table th {
+            background: #f8fafc;
+            color: #374151;
+            font-weight: 600;
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e2e8f0;
+            color: #64748b;
+        }
+        
+        .table tr:hover {
+            background: #f8fafc;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .sidebar-section h3 {
+            color: #1e293b;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .quick-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .quick-link {
+            padding: 0.75rem;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            color: #374151;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .quick-link:hover {
+            background: #eff6ff;
+            border-color: #3b82f6;
+            color: #1e40af;
+        }
+        
+        .toc {
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .toc h3 {
+            margin-bottom: 0.75rem;
+        }
+        
+        .toc ul {
+            list-style: none;
+        }
+        
+        .toc li {
+            padding: 0.25rem 0;
+        }
+        
+        .toc a {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+        
+        .toc a:hover {
+            color: #3b82f6;
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="http://127.0.0.1:5000" class="logo">
+                <i class="fas fa-file-alt"></i> Doküman Forum
+            </a>
+            <ul class="nav-links">
+                <li><a href="http://127.0.0.1:5000">Ana Sayfa</a></li>
+                <li><a href="index.html">Dokümantasyon</a></li>
+                <li><a href="#" class="active">API</a></li>
+                <li><a href="user-guide.html">Kılavuz</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="content-area">
+            <div class="content">
+                <div class="section">
+                    <h2><i class="fas fa-sitemap"></i> Proje Mimarisi ve API Dokümantasyonu</h2>
+                    <p style="color: #64748b; margin-bottom: 1.5rem;">
+                        Doküman Forum'un teknik mimarisi, API endpoint'leri ve sistem yapısı hakkında detaylı bilgiler.
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h2><i class="fas fa-layer-group"></i> Sistem Mimarisi</h2>
+                    
+                    <div class="tech-stack">
+                        <div class="tech-card">
+                            <h4><i class="fas fa-server"></i> Backend</h4>
+                            <p>FastAPI + Python</p>
+                        </div>
+                        <div class="tech-card">
+                            <h4><i class="fas fa-database"></i> Veritabanı</h4>
+                            <p>SQLite + SQLAlchemy</p>
+                        </div>
+                        <div class="tech-card">
+                            <h4><i class="fas fa-robot"></i> AI</h4>
+                            <p>Google Gemini API</p>
+                        </div>
+                        <div class="tech-card">
+                            <h4><i class="fas fa-shield-alt"></i> Güvenlik</h4>
+                            <p>JWT + bcrypt</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2><i class="fas fa-code"></i> API Endpoint'leri</h2>
+                    
+                    <div class="endpoint">
+                        <h4><span class="method post">POST</span> /api/auth/register</h4>
+                        <p><strong>Açıklama:</strong> Yeni kullanıcı kaydı</p>
+                        <div class="code-block">
+{
+  "email": "user@example.com",
+  "username": "username",
+  "password": "password",
+  "full_name": "Full Name"
+}
+                        </div>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <h4><span class="method post">POST</span> /api/auth/login</h4>
+                        <p><strong>Açıklama:</strong> Kullanıcı girişi</p>
+                        <div class="code-block">
+{
+  "email": "user@example.com",
+  "password": "password"
+}
+                        </div>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <h4><span class="method post">POST</span> /api/documents/</h4>
+                        <p><strong>Açıklama:</strong> Doküman yükleme</p>
+                        <div class="code-block">
+FormData: {
+  "file": "document.pdf",
+  "title": "Document Title"
+}
+                        </div>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <h4><span class="method get">GET</span> /api/search/?query=search_term</h4>
+                        <p><strong>Açıklama:</strong> Doküman arama</p>
+                        <div class="code-block">
+Query Parameters:
+- query: Arama terimi
+- file_type: Dosya türü filtresi
+                        </div>
+                    </div>
+                    
+                    <div class="endpoint">
+                        <h4><span class="method post">POST</span> /api/summary/{id}/generate</h4>
+                        <p><strong>Açıklama:</strong> AI ile doküman özetleme</p>
+                        <div class="code-block">
+Response: {
+  "summary": "Özet metni",
+  "keywords": "anahtar, kelimeler"
+}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2><i class="fas fa-database"></i> Veritabanı Şeması</h2>
+                    
+                    <h3>Users Tablosu</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Alan</th>
+                                <th>Tip</th>
+                                <th>Açıklama</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>id</td>
+                                <td>Integer</td>
+                                <td>Birincil anahtar</td>
+                            </tr>
+                            <tr>
+                                <td>email</td>
+                                <td>String</td>
+                                <td>Benzersiz email adresi</td>
+                            </tr>
+                            <tr>
+                                <td>username</td>
+                                <td>String</td>
+                                <td>Benzersiz kullanıcı adı</td>
+                            </tr>
+                            <tr>
+                                <td>hashed_password</td>
+                                <td>String</td>
+                                <td>Şifrelenmiş parola</td>
+                            </tr>
+                            <tr>
+                                <td>full_name</td>
+                                <td>String</td>
+                                <td>Tam ad</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h3>Documents Tablosu</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Alan</th>
+                                <th>Tip</th>
+                                <th>Açıklama</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>id</td>
+                                <td>Integer</td>
+                                <td>Birincil anahtar</td>
+                            </tr>
+                            <tr>
+                                <td>title</td>
+                                <td>String</td>
+                                <td>Doküman başlığı</td>
+                            </tr>
+                            <tr>
+                                <td>filename</td>
+                                <td>String</td>
+                                <td>Dosya adı</td>
+                            </tr>
+                            <tr>
+                                <td>file_path</td>
+                                <td>String</td>
+                                <td>Dosya yolu</td>
+                            </tr>
+                            <tr>
+                                <td>file_size</td>
+                                <td>Integer</td>
+                                <td>Dosya boyutu (bytes)</td>
+                            </tr>
+                            <tr>
+                                <td>file_type</td>
+                                <td>String</td>
+                                <td>Dosya türü</td>
+                            </tr>
+                            <tr>
+                                <td>content</td>
+                                <td>Text</td>
+                                <td>Doküman içeriği</td>
+                            </tr>
+                            <tr>
+                                <td>summary</td>
+                                <td>Text</td>
+                                <td>AI özeti</td>
+                            </tr>
+                            <tr>
+                                <td>keywords</td>
+                                <td>String</td>
+                                <td>Anahtar kelimeler</td>
+                            </tr>
+                            <tr>
+                                <td>user_id</td>
+                                <td>Integer</td>
+                                <td>Kullanıcı referansı</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h2><i class="fas fa-shield-alt"></i> Güvenlik</h2>
+                    
+                    <h3>Kimlik Doğrulama</h3>
+                    <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                        <li>JWT (JSON Web Token) tabanlı kimlik doğrulama</li>
+                        <li>bcrypt ile şifre hashleme</li>
+                        <li>Token tabanlı oturum yönetimi</li>
+                        <li>Güvenli API endpoint koruması</li>
+                    </ul>
+                    
+                    <h3>Dosya Güvenliği</h3>
+                    <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                        <li>Dosya türü doğrulama</li>
+                        <li>Dosya boyutu sınırlaması</li>
+                        <li>Güvenli dosya yükleme yolu</li>
+                        <li>Kullanıcı bazlı dosya erişimi</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h2><i class="fas fa-server"></i> Deployment</h2>
+                    
+                    <h3>Gereksinimler</h3>
+                    <div class="code-block">
+Python 3.8+
+FastAPI
+Uvicorn
+SQLAlchemy
+Google Generative AI
+                    </div>
+                    
+                    <h3>Kurulum</h3>
+                    <div class="code-block">
+pip install -r requirements.txt
+python main.py
+                    </div>
+                    
+                    <h3>Environment Variables</h3>
+                    <div class="code-block">
+DATABASE_URL=sqlite:///./document_db.sqlite
+SECRET_KEY=your-secret-key
+GEMINI_API_KEY=your-gemini-api-key
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h3><i class="fas fa-list"></i> İçindekiler</h3>
+                <div class="toc">
+                    <ul>
+                        <li><a href="#architecture">Sistem Mimarisi</a></li>
+                        <li><a href="#api">API Endpoint'leri</a></li>
+                        <li><a href="#database">Veritabanı Şeması</a></li>
+                        <li><a href="#security">Güvenlik</a></li>
+                        <li><a href="#deployment">Deployment</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3><i class="fas fa-link"></i> Hızlı Bağlantılar</h3>
+                <div class="quick-links">
+                    <a href="http://127.0.0.1:5000" class="quick-link">
+                        <i class="fas fa-home"></i> Ana Sayfa
+                    </a>
+                    <a href="index.html" class="quick-link">
+                        <i class="fas fa-book"></i> Dokümantasyon
+                    </a>
+                    <a href="user-guide.html" class="quick-link">
+                        <i class="fas fa-user-graduate"></i> Kullanım Kılavuzu
+                    </a>
+                    <a href="unit-test-report.html" class="quick-link">
+                        <i class="fas fa-vial"></i> Test Raporu
+                    </a>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3><i class="fas fa-code"></i> API Test</h3>
+                <div class="quick-links">
+                    <a href="http://127.0.0.1:5000/docs" class="quick-link" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> Swagger UI
+                    </a>
+                    <a href="http://127.0.0.1:5000/redoc" class="quick-link" target="_blank">
+                        <i class="fas fa-file-alt"></i> ReDoc
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

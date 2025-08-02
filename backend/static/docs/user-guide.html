@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Kılavuzu - Doküman Forum</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #64748b;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+        }
+        
+        .nav-links a:hover {
+            color: #3b82f6;
+            background: #f1f5f9;
+        }
+        
+        .nav-links a.active {
+            color: #3b82f6;
+            background: #eff6ff;
+        }
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+        }
+        
+        .content-area {
+            background: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .sidebar {
+            background: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            height: fit-content;
+        }
+        
+        .content {
+            padding: 2rem;
+        }
+        
+        .section {
+            margin-bottom: 2rem;
+        }
+        
+        .section h2 {
+            color: #1e293b;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .section h3 {
+            color: #374151;
+            font-size: 1.25rem;
+            margin: 1.5rem 0 1rem 0;
+            font-weight: 600;
+        }
+        
+        .section h4 {
+            color: #4b5563;
+            font-size: 1.1rem;
+            margin: 1rem 0 0.5rem 0;
+            font-weight: 600;
+        }
+        
+        .step-list {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+        
+        .step-list li {
+            counter-increment: step-counter;
+            padding: 1rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .step-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .step-list li::before {
+            content: counter(step-counter);
+            background: #3b82f6;
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .feature-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            transition: all 0.2s;
+        }
+        
+        .feature-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .feature-card h4 {
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .feature-card p {
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tip-box {
+            background: #eff6ff;
+            border: 1px solid #3b82f6;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .tip-box h4 {
+            color: #1e40af;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .warning-box {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .warning-box h4 {
+            color: #92400e;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .faq-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .faq-item h4 {
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .faq-item p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .sidebar-section h3 {
+            color: #1e293b;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .quick-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .quick-link {
+            padding: 0.75rem;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            color: #374151;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .quick-link:hover {
+            background: #eff6ff;
+            border-color: #3b82f6;
+            color: #1e40af;
+        }
+        
+        .toc {
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .toc h3 {
+            margin-bottom: 0.75rem;
+        }
+        
+        .toc ul {
+            list-style: none;
+        }
+        
+        .toc li {
+            padding: 0.25rem 0;
+        }
+        
+        .toc a {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+        
+        .toc a:hover {
+            color: #3b82f6;
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="http://127.0.0.1:5000" class="logo">
+                <i class="fas fa-file-alt"></i> Doküman Forum
+            </a>
+            <ul class="nav-links">
+                <li><a href="http://127.0.0.1:5000">Ana Sayfa</a></li>
+                <li><a href="index.html">Dokümantasyon</a></li>
+                <li><a href="project-architecture.html">API</a></li>
+                <li><a href="#" class="active">Kılavuz</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="content-area">
+            <div class="content">
+                <div class="section">
+                    <h2><i class="fas fa-user-graduate"></i> Kullanıcı Kılavuzu</h2>
+                    <p style="color: #64748b; margin-bottom: 1.5rem;">
+                        Doküman Forum'u kullanmaya başlamak için adım adım rehber. Tüm özellikleri keşfedin ve sistemden en iyi şekilde yararlanın.
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h2><i class="fas fa-rocket"></i> Hızlı Başlangıç</h2>
+                    
+                    <ol class="step-list">
+                        <li>
+                            <div>
+                                <h4>Hesap Oluşturma</h4>
+                                <p>Ana sayfada "Yeni Hesap Oluştur" bölümünü kullanarak email, kullanıcı adı ve şifrenizi girerek hesabınızı oluşturun.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <h4>Giriş Yapma</h4>
+                                <p>Hesabınızı oluşturduktan sonra "Giriş Yap" bölümünden email ve şifrenizle sisteme giriş yapın.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <h4>Doküman Yükleme</h4>
+                                <p>"Yükle" sekmesine geçin ve PDF, DOCX, TXT veya DOC formatındaki dosyalarınızı sisteme yükleyin.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <h4>Arama ve Özetleme</h4>
+                                <p>Yüklediğiniz dokümanları arayın ve AI destekli özetleme özelliğini kullanarak içeriklerini analiz edin.</p>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="section">
+                    <h2><i class="fas fa-star"></i> Temel Özellikler</h2>
+                    
+                    <div class="feature-card">
+                        <h4><i class="fas fa-cloud-upload-alt"></i> Doküman Yükleme</h4>
+                        <p>Desteklenen formatlar: PDF, DOCX, TXT, DOC</p>
+                        <p>Maksimum dosya boyutu: 10MB</p>
+                        <p>Otomatik metin çıkarma ve içerik analizi</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4><i class="fas fa-search"></i> Gelişmiş Arama</h4>
+                        <p>Doküman içeriğinde tam metin arama</p>
+                        <p>Dosya türüne göre filtreleme</p>
+                        <p>Gerçek zamanlı arama sonuçları</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4><i class="fas fa-robot"></i> AI Özetleme</h4>
+                        <p>Google Gemini AI ile otomatik özetleme</p>
+                        <p>Anahtar kelime çıkarma</p>
+                        <p>Akıllı içerik analizi</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4><i class="fas fa-shield-alt"></i> Güvenlik</h4>
+                        <p>JWT tabanlı güvenli kimlik doğrulama</p>
+                        <p>Kullanıcı bazlı dosya erişimi</p>
+                        <p>Şifrelenmiş veri saklama</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2><i class="fas fa-question-circle"></i> Sık Sorulan Sorular</h2>
+                    
+                    <div class="faq-item">
+                        <h4><i class="fas fa-question"></i> Hangi dosya formatları destekleniyor?</h4>
+                        <p>Sistem PDF, DOCX, TXT ve DOC formatlarını destekler. Dosyalarınızın bu formatlardan birinde olduğundan emin olun.</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h4><i class="fas fa-question"></i> Maksimum dosya boyutu nedir?</h4>
+                        <p>Şu anda maksimum dosya boyutu 10MB olarak ayarlanmıştır. Daha büyük dosyalar için lütfen dosyayı bölün.</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h4><i class="fas fa-question"></i> AI özetleme nasıl çalışır?</h4>
+                        <p>Google Gemini AI kullanarak dokümanınızın içeriğini analiz eder ve önemli noktaları özetler. Ayrıca anahtar kelimeleri de çıkarır.</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h4><i class="fas fa-question"></i> Verilerim güvende mi?</h4>
+                        <p>Evet, tüm verileriniz güvenli şekilde saklanır. JWT token kullanarak kimlik doğrulama yapılır ve dosyalarınız sadece size aittir.</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2><i class="fas fa-lightbulb"></i> İpuçları ve Öneriler</h2>
+                    
+                    <div class="tip-box">
+                        <h4><i class="fas fa-lightbulb"></i> Verimli Kullanım İpuçları</h4>
+                        <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                            <li>Dokümanlarınıza açıklayıcı başlıklar verin</li>
+                            <li>Arama yaparken spesifik terimler kullanın</li>
+                            <li>AI özetleme özelliğini uzun dokümanlar için kullanın</li>
+                            <li>Düzenli olarak dokümanlarınızı organize edin</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="warning-box">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Önemli Notlar</h4>
+                        <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                            <li>Şifrenizi güvenli tutun ve düzenli olarak değiştirin</li>
+                            <li>Önemli dokümanlarınızın yedeğini alın</li>
+                            <li>Hassas bilgiler içeren dosyaları yüklemeden önce düşünün</li>
+                            <li>Sistemden çıkış yapmadan önce işlerinizi tamamlayın</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2><i class="fas fa-tools"></i> Sorun Giderme</h2>
+                    
+                    <div class="faq-item">
+                        <h4><i class="fas fa-exclamation-circle"></i> Dosya yüklenmiyor</h4>
+                        <p>Dosya formatını ve boyutunu kontrol edin. Desteklenen formatlar: PDF, DOCX, TXT, DOC. Maksimum boyut: 10MB.</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h4><i class="fas fa-exclamation-circle"></i> Giriş yapamıyorum</h4>
+                        <p>Email ve şifrenizi doğru girdiğinizden emin olun. Şifrenizi unuttuysanız yeni bir hesap oluşturabilirsiniz.</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h4><i class="fas fa-exclamation-circle"></i> AI özetleme çalışmıyor</h4>
+                        <p>Dokümanın metin içeriği olup olmadığını kontrol edin. Resim dosyaları özetlenemez.</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <h4><i class="fas fa-exclamation-circle"></i> Arama sonuç bulamıyor</h4>
+                        <p>Arama terimlerinizi kontrol edin. Daha genel terimler kullanmayı deneyin veya dosya türü filtresini kaldırın.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h3><i class="fas fa-list"></i> İçindekiler</h3>
+                <div class="toc">
+                    <ul>
+                        <li><a href="#quick-start">Hızlı Başlangıç</a></li>
+                        <li><a href="#features">Temel Özellikler</a></li>
+                        <li><a href="#faq">Sık Sorulan Sorular</a></li>
+                        <li><a href="#tips">İpuçları</a></li>
+                        <li><a href="#troubleshooting">Sorun Giderme</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3><i class="fas fa-link"></i> Hızlı Bağlantılar</h3>
+                <div class="quick-links">
+                    <a href="http://127.0.0.1:5000" class="quick-link">
+                        <i class="fas fa-home"></i> Ana Sayfa
+                    </a>
+                    <a href="index.html" class="quick-link">
+                        <i class="fas fa-book"></i> Dokümantasyon
+                    </a>
+                    <a href="project-architecture.html" class="quick-link">
+                        <i class="fas fa-code"></i> API Dokümantasyonu
+                    </a>
+                    <a href="unit-test-report.html" class="quick-link">
+                        <i class="fas fa-vial"></i> Test Raporu
+                    </a>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3><i class="fas fa-info-circle"></i> Destek</h3>
+                <div class="quick-links">
+                    <a href="#troubleshooting" class="quick-link">
+                        <i class="fas fa-tools"></i> Sorun Giderme
+                    </a>
+                    <a href="project-architecture.html" class="quick-link">
+                        <i class="fas fa-server"></i> Teknik Detaylar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

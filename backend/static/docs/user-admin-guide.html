@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı ve Admin Kılavuzu - Doküman Yönetim Sistemi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .step-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .step-card:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        .admin-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .user-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-xl font-bold text-gray-800">📖 Kullanıcı ve Admin Kılavuzu</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Ana Sayfa</a>
+                    <a href="module-documentation.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Modül Dokümantasyonu</a>
+                    <a href="unit-test-report.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Test Raporu</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Kullanıcı ve Admin Kılavuzu</h1>
+            <p class="text-xl text-gray-600 mb-6">Doküman Yönetim Sistemi'ni kullanma ve yönetme rehberi</p>
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                <p class="text-blue-700">
+                    <strong>Son Güncelleme:</strong> 2 Ağustos 2025<br>
+                    <strong>Versiyon:</strong> 1.0.0
+                </p>
+            </div>
+        </div>
+
+        <!-- Quick Navigation -->
+        <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div class="user-section rounded-lg p-6">
+                <h2 class="text-2xl font-bold mb-4">👤 Kullanıcı Kılavuzu</h2>
+                <ul class="space-y-2">
+                    <li><a href="#user-registration" class="hover:underline">📝 Kayıt Olma</a></li>
+                    <li><a href="#user-login" class="hover:underline">🔐 Giriş Yapma</a></li>
+                    <li><a href="#document-upload" class="hover:underline">📤 Doküman Yükleme</a></li>
+                    <li><a href="#document-search" class="hover:underline">🔍 Doküman Arama</a></li>
+                    <li><a href="#ai-summary" class="hover:underline">🤖 AI Özetleme</a></li>
+                </ul>
+            </div>
+            
+            <div class="admin-section rounded-lg p-6">
+                <h2 class="text-2xl font-bold mb-4">⚙️ Admin Kılavuzu</h2>
+                <ul class="space-y-2">
+                    <li><a href="#admin-dashboard" class="hover:underline">📊 Admin Paneli</a></li>
+                    <li><a href="#user-management" class="hover:underline">👥 Kullanıcı Yönetimi</a></li>
+                    <li><a href="#system-monitoring" class="hover:underline">📈 Sistem İzleme</a></li>
+                    <li><a href="#backup-restore" class="hover:underline">💾 Yedekleme</a></li>
+                    <li><a href="#security-settings" class="hover:underline">🔒 Güvenlik Ayarları</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- User Guide Section -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-3xl font-bold mb-6 text-gray-900">👤 Kullanıcı Kılavuzu</h2>
+
+            <!-- User Registration -->
+            <div id="user-registration" class="step-card bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">📝 Kayıt Olma</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Adım 1: Kayıt Formunu Doldurun</h4>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                            <li>Ana sayfada "Kayıt Ol" butonuna tıklayın</li>
+                            <li>E-posta adresinizi girin</li>
+                            <li>Kullanıcı adınızı belirleyin</li>
+                            <li>Güçlü bir şifre oluşturun</li>
+                            <li>Şifrenizi tekrar girin</li>
+                            <li>"Kayıt Ol" butonuna tıklayın</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Güvenlik İpuçları</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>En az 8 karakterli şifre kullanın</li>
+                            <li>Büyük/küçük harf, rakam ve özel karakter içersin</li>
+                            <li>Kişisel bilgilerinizi şifrede kullanmayın</li>
+                            <li>E-posta adresinizi doğru girdiğinizden emin olun</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Login -->
+            <div id="user-login" class="step-card bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">🔐 Giriş Yapma</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Giriş İşlemi</h4>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                            <li>Ana sayfada "Giriş" butonuna tıklayın</li>
+                            <li>E-posta adresinizi girin</li>
+                            <li>Şifrenizi girin</li>
+                            <li>"Giriş Yap" butonuna tıklayın</li>
+                            <li>Başarılı giriş sonrası dashboard'a yönlendirilirsiniz</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Sorun Giderme</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>Şifrenizi unuttuysanız "Şifremi Unuttum" linkini kullanın</li>
+                            <li>E-posta adresinizi kontrol edin</li>
+                            <li>Caps Lock tuşunun açık olmadığından emin olun</li>
+                            <li>Tarayıcı önbelleğini temizleyin</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Document Upload -->
+            <div id="document-upload" class="step-card bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">📤 Doküman Yükleme</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Desteklenen Formatlar</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li><strong>PDF:</strong> .pdf dosyaları</li>
+                            <li><strong>Word:</strong> .docx, .doc dosyaları</li>
+                            <li><strong>Metin:</strong> .txt dosyaları</li>
+                        </ul>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="text-yellow-700">
+                                <strong>Not:</strong> Maksimum dosya boyutu 10MB'dır.
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Yükleme Adımları</h4>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                            <li>Dashboard'da "Doküman Yükle" butonuna tıklayın</li>
+                            <li>Dosya seçme alanına tıklayın</li>
+                            <li>Yüklemek istediğiniz dosyayı seçin</li>
+                            <li>Dosya adını ve açıklamasını girin (opsiyonel)</li>
+                            <li>"Yükle" butonuna tıklayın</li>
+                            <li>Yükleme tamamlandığında onay mesajı alırsınız</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Document Search -->
+            <div id="document-search" class="step-card bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">🔍 Doküman Arama</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Arama Türleri</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li><strong>Basit Arama:</strong> Anahtar kelime ile arama</li>
+                            <li><strong>Gelişmiş Arama:</strong> Filtreler ile arama</li>
+                            <li><strong>Tam Metin Arama:</strong> İçerikte arama</li>
+                            <li><strong>Tarih Filtresi:</strong> Tarih aralığı ile arama</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Arama İpuçları</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>Tırnak işareti kullanarak tam eşleşme arayın</li>
+                            <li>AND, OR operatörlerini kullanın</li>
+                            <li>Dosya türü filtresini kullanın</li>
+                            <li>Tarih aralığı belirleyin</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Summary -->
+            <div id="ai-summary" class="step-card bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">🤖 AI Özetleme</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Özetleme Özellikleri</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>Otomatik özetleme</li>
+                            <li>Anahtar kelime çıkarımı</li>
+                            <li>İçerik kategorilendirme</li>
+                            <li>Çoklu dil desteği</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Kullanım Adımları</h4>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                            <li>Dokümanınızı seçin</li>
+                            <li>"AI Özetle" butonuna tıklayın</li>
+                            <li>Özet uzunluğunu seçin</li>
+                            <li>Özetleme işlemini bekleyin</li>
+                            <li>Sonuçları görüntüleyin ve kaydedin</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Guide Section -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-3xl font-bold mb-6 text-gray-900">⚙️ Admin Kılavuzu</h2>
+
+            <!-- Admin Dashboard -->
+            <div id="admin-dashboard" class="step-card bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">📊 Admin Paneli</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Panel Özellikleri</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>Sistem istatistikleri</li>
+                            <li>Kullanıcı aktivite raporları</li>
+                            <li>Doküman yükleme analizleri</li>
+                            <li>Sistem performans metrikleri</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Erişim</h4>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                            <li>Admin hesabıyla giriş yapın</li>
+                            <li>Dashboard'da "Admin Paneli" linkine tıklayın</li>
+                            <li>İstatistikleri görüntüleyin</li>
+                            <li>Raporları indirin</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Management -->
+            <div id="user-management" class="step-card bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">👥 Kullanıcı Yönetimi</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Kullanıcı İşlemleri</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>Kullanıcı listesini görüntüleme</li>
+                            <li>Kullanıcı hesaplarını askıya alma</li>
+                            <li>Kullanıcı rollerini değiştirme</li>
+                            <li>Kullanıcı aktivite geçmişini görüntüleme</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Güvenlik Önlemleri</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>Şüpheli aktiviteleri izleme</li>
+                            <li>Başarısız giriş denemelerini takip etme</li>
+                            <li>Kullanıcı hesaplarını kilitleme</li>
+                            <li>Otomatik uyarı sistemi</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Monitoring -->
+            <div id="system-monitoring" class="step-card bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">📈 Sistem İzleme</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">İzleme Metrikleri</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>CPU ve RAM kullanımı</li>
+                            <li>Disk alanı durumu</li>
+                            <li>Veritabanı performansı</li>
+                            <li>API yanıt süreleri</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Uyarı Sistemi</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>Yüksek sistem kullanımı uyarıları</li>
+                            <li>Disk alanı kritik seviye uyarıları</li>
+                            <li>Hata oranı uyarıları</li>
+                            <li>E-posta bildirimleri</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Backup and Restore -->
+            <div id="backup-restore" class="step-card bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">💾 Yedekleme ve Geri Yükleme</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Otomatik Yedekleme</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>Günlük veritabanı yedekleme</li>
+                            <li>Haftalık tam sistem yedekleme</li>
+                            <li>Bulut depolama entegrasyonu</li>
+                            <li>Yedekleme doğrulama</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Geri Yükleme İşlemleri</h4>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                            <li>Yedek dosyasını seçin</li>
+                            <li>Geri yükleme noktasını belirleyin</li>
+                            <li>Geri yükleme işlemini başlatın</li>
+                            <li>Doğrulama testleri yapın</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Settings -->
+            <div id="security-settings" class="step-card bg-white rounded-lg shadow-md p-6 mb-6">
+                <h3 class="text-2xl font-bold mb-4 text-gray-900">🔒 Güvenlik Ayarları</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Güvenlik Konfigürasyonu</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>JWT token süre ayarları</li>
+                            <li>Şifre politikası yapılandırması</li>
+                            <li>IP kısıtlamaları</li>
+                            <li>Rate limiting ayarları</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3">Güvenlik İzleme</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>Başarısız giriş denemeleri</li>
+                            <li>Şüpheli IP adresleri</li>
+                            <li>Anormal kullanıcı aktiviteleri</li>
+                            <li>Sistem güvenlik logları</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Troubleshooting Section -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-3xl font-bold mb-6 text-gray-900">🔧 Sorun Giderme</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Sık Karşılaşılan Sorunlar</h3>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-red-400 pl-4">
+                            <h4 class="font-semibold text-red-600">Dosya Yükleme Hatası</h4>
+                            <p class="text-gray-600">Dosya boyutu limitini kontrol edin (10MB)</p>
+                        </div>
+                        <div class="border-l-4 border-yellow-400 pl-4">
+                            <h4 class="font-semibold text-yellow-600">Giriş Sorunu</h4>
+                            <p class="text-gray-600">E-posta ve şifrenizi kontrol edin</p>
+                        </div>
+                        <div class="border-l-4 border-blue-400 pl-4">
+                            <h4 class="font-semibold text-blue-600">Arama Sonucu Bulunamadı</h4>
+                            <p class="text-gray-600">Farklı anahtar kelimeler deneyin</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">İletişim</h3>
+                    <div class="space-y-2 text-gray-600">
+                        <p><strong>Teknik Destek:</strong> support@document-system.com</p>
+                        <p><strong>Admin Desteği:</strong> admin@document-system.com</p>
+                        <p><strong>Telefon:</strong> +90 212 XXX XX XX</p>
+                        <p><strong>Çalışma Saatleri:</strong> 09:00 - 18:00 (Pazartesi-Cuma)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="bg-gray-100 rounded-lg p-6 text-center">
+            <p class="text-gray-600">
+                Bu kılavuz Doküman Yönetim Sistemi v1.0.0 için hazırlanmıştır.<br>
+                Son güncelleme: 2 Ağustos 2025
+            </p>
+        </div>
+    </main>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

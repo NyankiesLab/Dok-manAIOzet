@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül Dokümantasyonu - Doküman Yönetim Sistemi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+        }
+        .module-card {
+            transition: all 0.3s ease;
+        }
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .code-block {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .endpoint {
+            background: #f3f4f6;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="p-6">
+            <h1 class="text-2xl font-bold mb-6">📚 Modül Dokümantasyonu</h1>
+            <nav>
+                <ul class="space-y-2">
+                    <li><a href="#overview" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-20">🏠 Genel Bakış</a></li>
+                    <li><a href="#auth-module" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-20">🔐 Kimlik Doğrulama</a></li>
+                    <li><a href="#document-module" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-20">📄 Doküman Yönetimi</a></li>
+                    <li><a href="#search-module" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-20">🔍 Arama Modülü</a></li>
+                    <li><a href="#ai-module" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-20">🤖 AI Servisi</a></li>
+                    <li><a href="#summary-module" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-20">📝 Özetleme</a></li>
+                    <li><a href="#database-module" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-20">🗄️ Veritabanı</a></li>
+                    <li><a href="#config-module" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-20">⚙️ Konfigürasyon</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Overview -->
+        <section id="overview" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">🏠 Sistem Genel Bakış</h2>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">Doküman Yönetim Sistemi Mimarisi</h3>
+                <p class="text-gray-700 mb-4">
+                    Bu sistem, modern web teknolojileri kullanılarak geliştirilmiş kapsamlı bir doküman yönetim platformudur. 
+                    FastAPI backend'i, SQLAlchemy ORM'i ve Google Gemini AI entegrasyonu ile güçlendirilmiştir.
+                </p>
+                
+                <div class="grid md:grid-cols-2 gap-6 mt-6">
+                    <div class="module-card bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-blue-800">Backend Teknolojileri</h4>
+                        <ul class="text-sm text-blue-700 mt-2">
+                            <li>• FastAPI (ASGI Framework)</li>
+                            <li>• SQLAlchemy (ORM)</li>
+                            <li>• SQLite/PostgreSQL</li>
+                            <li>• JWT Authentication</li>
+                            <li>• Google Gemini AI</li>
+                        </ul>
+                    </div>
+                    <div class="module-card bg-green-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-green-800">Frontend Teknolojileri</h4>
+                        <ul class="text-sm text-green-700 mt-2">
+                            <li>• HTML5 + JavaScript</li>
+                            <li>• Tailwind CSS</li>
+                            <li>• Axios (HTTP Client)</li>
+                            <li>• Responsive Design</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Authentication Module -->
+        <section id="auth-module" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">🔐 Kimlik Doğrulama Modülü</h2>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">Dosya Yapısı</h3>
+                <div class="code-block mb-4">
+models/user.py          # Kullanıcı modeli
+services/auth_service.py # Kimlik doğrulama servisi
+api/routes/auth.py      # Auth API endpoint'leri
+                </div>
+
+                <h3 class="text-xl font-semibold mb-4">Özellikler</h3>
+                <ul class="list-disc list-inside text-gray-700 mb-4">
+                    <li>JWT token tabanlı kimlik doğrulama</li>
+                    <li>Kullanıcı kayıt ve giriş işlemleri</li>
+                    <li>Şifre hash'leme (bcrypt)</li>
+                    <li>Token yenileme ve doğrulama</li>
+                    <li>Kullanıcı profil yönetimi</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mb-4">API Endpoint'leri</h3>
+                <div class="space-y-3">
+                    <div class="endpoint">
+                        <strong>POST /api/auth/register</strong> - Kullanıcı kaydı
+                    </div>
+                    <div class="endpoint">
+                        <strong>POST /api/auth/login</strong> - Kullanıcı girişi
+                    </div>
+                    <div class="endpoint">
+                        <strong>GET /api/auth/me</strong> - Mevcut kullanıcı bilgileri
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Document Module -->
+        <section id="document-module" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">📄 Doküman Yönetimi Modülü</h2>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">Dosya Yapısı</h3>
+                <div class="code-block mb-4">
+models/document.py        # Doküman modeli
+services/document_service.py # Doküman işlemleri
+api/routes/documents.py   # Doküman API endpoint'leri
+                </div>
+
+                <h3 class="text-xl font-semibold mb-4">Desteklenen Dosya Türleri</h3>
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-gray-50 p-3 rounded">
+                        <strong>PDF</strong> - PyPDF2 ile işleme
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded">
+                        <strong>DOC/DOCX</strong> - python-docx ile işleme
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded">
+                        <strong>TXT</strong> - Doğrudan metin işleme
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-semibold mb-4">API Endpoint'leri</h3>
+                <div class="space-y-3">
+                    <div class="endpoint">
+                        <strong>POST /api/documents/</strong> - Doküman yükleme
+                    </div>
+                    <div class="endpoint">
+                        <strong>GET /api/documents/</strong> - Doküman listesi
+                    </div>
+                    <div class="endpoint">
+                        <strong>GET /api/documents/{id}</strong> - Doküman detayı
+                    </div>
+                    <div class="endpoint">
+                        <strong>DELETE /api/documents/{id}</strong> - Doküman silme
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Module -->
+        <section id="search-module" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">🔍 Arama Modülü</h2>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">Dosya Yapısı</h3>
+                <div class="code-block mb-4">
+api/routes/search.py      # Arama API endpoint'leri
+services/ai_service.py    # AI destekli arama
+                </div>
+
+                <h3 class="text-xl font-semibold mb-4">Arama Türleri</h3>
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-blue-50 p-4 rounded">
+                        <h4 class="font-semibold text-blue-800">Basit Metin Arama</h4>
+                        <p class="text-sm text-blue-700">Kelime eşleşmesi ile hızlı arama</p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded">
+                        <h4 class="font-semibold text-green-800">AI Destekli Arama</h4>
+                        <p class="text-sm text-green-700">Gemini API ile akıllı arama</p>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-semibold mb-4">API Endpoint'leri</h3>
+                <div class="space-y-3">
+                    <div class="endpoint">
+                        <strong>GET /api/search/</strong> - Temel arama
+                    </div>
+                    <div class="endpoint">
+                        <strong>GET /api/search/ai-search</strong> - AI destekli arama
+                    </div>
+                    <div class="endpoint">
+                        <strong>GET /api/search/advanced-search</strong> - Gelişmiş arama
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Module -->
+        <section id="ai-module" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">🤖 AI Servisi</h2>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">Dosya Yapısı</h3>
+                <div class="code-block mb-4">
+services/ai_service.py    # AI servisi
+app/config.py            # Gemini API konfigürasyonu
+                </div>
+
+                <h3 class="text-xl font-semibold mb-4">AI Özellikleri</h3>
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-purple-50 p-4 rounded">
+                        <h4 class="font-semibold text-purple-800">📝 Otomatik Özetleme</h4>
+                        <p class="text-sm text-purple-700">Doküman içeriğinden AI ile özet çıkarma</p>
+                    </div>
+                    <div class="bg-orange-50 p-4 rounded">
+                        <h4 class="font-semibold text-orange-800">🔑 Anahtar Kelime Çıkarma</h4>
+                        <p class="text-sm text-orange-700">Önemli kelimeleri otomatik tespit</p>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-semibold mb-4">Konfigürasyon</h3>
+                <div class="code-block">
+GEMINI_API_KEY = "your-api-key"
+GEMINI_MODEL = "gemini-1.5-pro"
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary Module -->
+        <section id="summary-module" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">📝 Özetleme Modülü</h2>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">Dosya Yapısı</h3>
+                <div class="code-block mb-4">
+api/routes/summary.py     # Özetleme API endpoint'leri
+services/ai_service.py    # AI özetleme servisi
+                </div>
+
+                <h3 class="text-xl font-semibold mb-4">API Endpoint'leri</h3>
+                <div class="space-y-3">
+                    <div class="endpoint">
+                        <strong>POST /api/summary/{id}/generate</strong> - Özet oluşturma
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-semibold mb-4">Özellikler</h3>
+                <ul class="list-disc list-inside text-gray-700">
+                    <li>Detaylı doküman özeti (300-400 kelime)</li>
+                    <li>Anahtar kelime çıkarma (15 kelime)</li>
+                    <li>Türkçe dil desteği</li>
+                    <li>Fallback mekanizması (AI olmadığında)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Database Module -->
+        <section id="database-module" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">🗄️ Veritabanı Modülü</h2>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">Dosya Yapısı</h3>
+                <div class="code-block mb-4">
+app/database.py          # Veritabanı konfigürasyonu
+models/user.py           # Kullanıcı tablosu
+models/document.py       # Doküman tablosu
+                </div>
+
+                <h3 class="text-xl font-semibold mb-4">Veritabanı Şeması</h3>
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-gray-50 p-4 rounded">
+                        <h4 class="font-semibold">Users Tablosu</h4>
+                        <ul class="text-sm">
+                            <li>• id (Primary Key)</li>
+                            <li>• email (Unique)</li>
+                            <li>• username</li>
+                            <li>• full_name</li>
+                            <li>• hashed_password</li>
+                            <li>• is_active</li>
+                            <li>• created_at</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded">
+                        <h4 class="font-semibold">Documents Tablosu</h4>
+                        <ul class="text-sm">
+                            <li>• id (Primary Key)</li>
+                            <li>• title</li>
+                            <li>• filename</li>
+                            <li>• file_path</li>
+                            <li>• file_size</li>
+                            <li>• file_type</li>
+                            <li>• content</li>
+                            <li>• summary</li>
+                            <li>• keywords</li>
+                            <li>• user_id (Foreign Key)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Config Module -->
+        <section id="config-module" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">⚙️ Konfigürasyon Modülü</h2>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4">Dosya Yapısı</h3>
+                <div class="code-block mb-4">
+app/config.py            # Ana konfigürasyon dosyası
+.env                     # Ortam değişkenleri (opsiyonel)
+                </div>
+
+                <h3 class="text-xl font-semibold mb-4">Konfigürasyon Parametreleri</h3>
+                <div class="space-y-3">
+                    <div class="bg-blue-50 p-3 rounded">
+                        <strong>DATABASE_URL</strong> - Veritabanı bağlantı URL'i
+                    </div>
+                    <div class="bg-green-50 p-3 rounded">
+                        <strong>SECRET_KEY</strong> - JWT imzalama anahtarı
+                    </div>
+                    <div class="bg-purple-50 p-3 rounded">
+                        <strong>GEMINI_API_KEY</strong> - Google Gemini API anahtarı
+                    </div>
+                    <div class="bg-orange-50 p-3 rounded">
+                        <strong>ALLOWED_ORIGINS</strong> - CORS izin verilen domain'ler
+                    </div>
+                    <div class="bg-red-50 p-3 rounded">
+                        <strong>UPLOAD_DIR</strong> - Dosya yükleme dizini
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center py-8 text-gray-600">
+            <p>📚 Doküman Yönetim Sistemi - Modül Dokümantasyonu</p>
+            <p class="text-sm mt-2">Son güncelleme: 2024</p>
+        </footer>
+    </div>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
