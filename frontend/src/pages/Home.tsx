@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext.tsx';
 import { FileText, Upload, Search, FileSearch, Brain, Shield, Zap } from 'lucide-react';
 
 const Home: React.FC = () => {

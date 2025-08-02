@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext.tsx';
 import { Upload, FileText, AlertCircle, CheckCircle, X } from 'lucide-react';
 import axios from 'axios';
 
