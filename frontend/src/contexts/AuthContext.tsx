@@ -36,7 +36,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
   const [loading, setLoading] = useState(true);
 
-  const API_BASE = 'http://localhost:8000/api';
+  const API_BASE = 'http://localhost:5000/api';
 
   useEffect(() => {
     if (token) {

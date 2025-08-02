@@ -45,7 +45,7 @@ app.add_middleware(
 # API route'larını dahil et
 app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(documents.router, prefix="/api/documents", tags=["Documents"])
-app.include_router(search.router, prefix="/api/documents", tags=["Documents"])
+app.include_router(search.router, prefix="/api/search", tags=["Search"])
 app.include_router(summary.router, prefix="/api/summary", tags=["Summary"])
 
 # Statik dosyalar için

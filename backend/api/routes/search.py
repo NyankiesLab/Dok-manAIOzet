@@ -1,11 +1,12 @@
 """
-Doküman Listeleme API Route'ları
-================================
+Doküman Listeleme ve Arama API Route'ları
+==========================================
 """
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
+from sqlalchemy import or_
 from typing import List, Optional
 from app.database import get_db
 from models.document import Document, DocumentResponse
@@ -29,6 +30,48 @@ async def get_current_user(
     return user
 
 @router.get("/", response_model=List[DocumentResponse])
+async def search_documents(
+    query: Optional[str] = Query(None, description="Arama sorgusu"),
+    file_type: Optional[str] = Query(None, description="Dosya türü filtresi"),
+    limit: int = Query(20, description="Sonuç sayısı"),
+    offset: int = Query(0, description="Başlangıç indeksi"),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Dokümanlarda arama yap"""
+    try:
+        # Temel filtreler
+        filters = [Document.user_id == current_user.id]
+        
+        # Arama sorgusu
+        if query:
+            search_term = f"%{query}%"
+            filters.append(
+                or_(
+                    Document.title.ilike(search_term),
+                    Document.content.ilike(search_term),
+                    Document.filename.ilike(search_term)
+                )
+            )
+        
+        # Dosya türü filtresi
+        if file_type and file_type != "all":
+            filters.append(Document.file_type == file_type)
+        
+        # Sorguyu çalıştır
+        documents = db.query(Document).filter(
+            *filters
+        ).offset(offset).limit(limit).all()
+        
+        return [DocumentResponse.from_orm(doc) for doc in documents]
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Arama hatası: {str(e)}"
+        )
+
+@router.get("/documents/", response_model=List[DocumentResponse])
 async def list_documents(
     limit: int = Query(20, description="Sonuç sayısı"),
     offset: int = Query(0, description="Başlangıç indeksi"),
@@ -58,7 +101,7 @@ async def list_documents(
             detail=f"Doküman listeleme hatası: {str(e)}"
         )
 
-@router.get("/{document_id}", response_model=DocumentResponse)
+@router.get("/documents/{document_id}", response_model=DocumentResponse)
 async def get_document_by_id(
     document_id: int,
     current_user: User = Depends(get_current_user),
@@ -87,7 +130,7 @@ async def get_document_by_id(
             detail=f"Doküman getirme hatası: {str(e)}"
         )
 
-@router.get("/count/total")
+@router.get("/documents/count/total")
 async def get_document_count(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
